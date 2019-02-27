@@ -36,6 +36,7 @@ from tensorflow_probability.python.distributions.deterministic import VectorDete
 from tensorflow_probability.python.distributions.dirichlet import Dirichlet
 from tensorflow_probability.python.distributions.dirichlet_multinomial import DirichletMultinomial
 from tensorflow_probability.python.distributions.distribution import Distribution
+from tensorflow_probability.python.distributions.empirical import Empirical
 from tensorflow_probability.python.distributions.exponential import Exponential
 from tensorflow_probability.python.distributions.gamma import Gamma
 from tensorflow_probability.python.distributions.gamma_gamma import GammaGamma
@@ -53,6 +54,7 @@ from tensorflow_probability.python.distributions.internal.moving_stats import as
 from tensorflow_probability.python.distributions.internal.moving_stats import moving_mean_variance
 from tensorflow_probability.python.distributions.inverse_gamma import InverseGamma
 from tensorflow_probability.python.distributions.inverse_gamma import InverseGammaWithSoftplusConcentrationRate
+from tensorflow_probability.python.distributions.inverse_gamma import InverseGammaWithSoftplusConcentrationScale
 from tensorflow_probability.python.distributions.inverse_gaussian import InverseGaussian
 from tensorflow_probability.python.distributions.kullback_leibler import kl_divergence
 from tensorflow_probability.python.distributions.kullback_leibler import RegisterKL
@@ -147,6 +149,7 @@ __all__ = [
     'Chi2WithAbsDf',
     'Deterministic',
     'VectorDeterministic',
+    'Empirical',
     'Exponential',
     'ExponentialWithSoftplusRate',
     'VectorExponentialDiag',
@@ -165,6 +168,7 @@ __all__ = [
     'Independent',
     'InverseGamma',
     'InverseGammaWithSoftplusConcentrationRate',
+    'InverseGammaWithSoftplusConcentrationScale',
     'Kumaraswamy',
     'LinearGaussianStateSpaceModel',
     'Laplace',

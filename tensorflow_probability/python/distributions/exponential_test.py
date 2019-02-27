@@ -28,7 +28,7 @@ import tensorflow_probability as tfp
 from tensorflow_probability.python.distributions import exponential as exponential_lib
 
 tfd = tfp.distributions
-tfe = tf.contrib.eager
+from tensorflow.python.framework import test_util  # pylint: disable=g-direct-tensorflow-import,g-import-not-at-top
 
 
 def try_import(name):  # pylint: disable=invalid-name
@@ -36,14 +36,14 @@ def try_import(name):  # pylint: disable=invalid-name
   try:
     module = importlib.import_module(name)
   except ImportError as e:
-    tf.logging.warning("Could not import %s: %s" % (name, str(e)))
+    tf.compat.v1.logging.warning("Could not import %s: %s" % (name, str(e)))
   return module
 
 
 stats = try_import("scipy.stats")
 
 
-@tfe.run_all_tests_in_graph_and_eager_modes
+@test_util.run_all_in_graph_and_eager_modes
 class ExponentialTest(tf.test.TestCase):
 
   def testExponentialLogPDF(self):
@@ -175,11 +175,8 @@ class ExponentialTest(tf.test.TestCase):
 
   def testFullyReparameterized(self):
     lam = tf.constant([0.1, 1.0])
-    with tf.GradientTape() as tape:
-      tape.watch(lam)
-      exponential = exponential_lib.Exponential(rate=lam)
-      samples = exponential.sample(100)
-    grad_lam = tape.gradient(samples, lam)
+    _, grad_lam = tfp.math.value_and_gradient(
+        lambda l: exponential_lib.Exponential(rate=lam).sample(100), lam)
     self.assertIsNotNone(grad_lam)
 
   def testExponentialExponentialKL(self):
@@ -200,7 +197,8 @@ class ExponentialTest(tf.test.TestCase):
     kl = tfd.kl_divergence(a, b)
 
     x = a.sample(int(4e5), seed=0)
-    kl_sample = tf.reduce_mean(a.log_prob(x) - b.log_prob(x), axis=0)
+    kl_sample = tf.reduce_mean(
+        input_tensor=a.log_prob(x) - b.log_prob(x), axis=0)
 
     kl_, kl_sample_ = self.evaluate([kl, kl_sample])
     self.assertAllClose(true_kl, kl_, atol=0., rtol=1e-12)

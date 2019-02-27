@@ -31,6 +31,7 @@ py_library(
     srcs = ["__init__.py"],
     deps = [
         ":hager_zhang",
+        "//tensorflow_probability/python/optimizer/linesearch/internal",
     ],
 )
 
@@ -40,6 +41,7 @@ py_library(
     srcs_version = "PY2AND3",
     deps = [
         # tensorflow dep,
+        "//tensorflow_probability/python/internal:prefer_static",
     ],
 )
 
@@ -47,6 +49,7 @@ py_test(
     name = "hager_zhang_test",
     size = "medium",
     srcs = ["hager_zhang_test.py"],
+    shard_count = 5,
     deps = [
         # numpy dep,
         # tensorflow dep,

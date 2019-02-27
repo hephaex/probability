@@ -34,9 +34,11 @@ py_library(
     deps = [
         ":fitting",
         ":forecast",
+        ":local_level",
         ":local_linear_trend",
         ":regression",
         ":seasonal",
+        ":semilocal_linear_trend",
         ":structural_time_series",
         ":sum",
     ],
@@ -82,6 +84,28 @@ py_test(
     size = "large",
     srcs = ["forecast_test.py"],
     shard_count = 6,
+    deps = [
+        # numpy dep,
+        # tensorflow dep,
+        "//tensorflow_probability",
+    ],
+)
+
+py_library(
+    name = "local_level",
+    srcs = ["local_level.py"],
+    srcs_version = "PY2AND3",
+    deps = [
+        # numpy dep,
+        # tensorflow dep,
+        "//tensorflow_probability/python/sts/internal",
+    ],
+)
+
+py_test(
+    name = "local_level_test",
+    size = "medium",
+    srcs = ["local_level_test.py"],
     deps = [
         # numpy dep,
         # tensorflow dep,
@@ -148,6 +172,29 @@ py_test(
     name = "seasonal_test",
     size = "medium",
     srcs = ["seasonal_test.py"],
+    shard_count = 6,
+    deps = [
+        # numpy dep,
+        # tensorflow dep,
+        "//tensorflow_probability",
+    ],
+)
+
+py_library(
+    name = "semilocal_linear_trend",
+    srcs = ["semilocal_linear_trend.py"],
+    srcs_version = "PY2AND3",
+    deps = [
+        # numpy dep,
+        # tensorflow dep,
+        "//tensorflow_probability/python/sts/internal",
+    ],
+)
+
+py_test(
+    name = "semilocal_linear_trend_test",
+    size = "medium",
+    srcs = ["semilocal_linear_trend_test.py"],
     deps = [
         # numpy dep,
         # tensorflow dep,

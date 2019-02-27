@@ -38,6 +38,8 @@ py_library(
         ":affine_scalar",
         ":batch_normalization",
         ":bijector",
+        ":blockwise",
+        ":categorical_to_discrete",
         ":chain",
         ":cholesky_outer_product",
         ":cholesky_to_inv_cholesky",
@@ -135,6 +137,25 @@ py_library(
     deps = [
         ":bijector",
         # tensorflow dep,
+    ],
+)
+
+py_library(
+    name = "blockwise",
+    srcs = ["blockwise.py"],
+    deps = [
+        ":bijector",
+        # tensorflow dep,
+    ],
+)
+
+py_library(
+    name = "categorical_to_discrete",
+    srcs = ["categorical_to_discrete.py"],
+    deps = [
+        ":bijector",
+        # tensorflow dep,
+        "//tensorflow_probability/python/internal:distribution_util",
     ],
 )
 
@@ -269,6 +290,7 @@ py_library(
         ":bijector",
         # numpy dep,
         # tensorflow dep,
+        "//tensorflow_probability/python/math:numeric",
     ],
 )
 
@@ -572,6 +594,30 @@ py_test(
 )
 
 py_test(
+    name = "blockwise_test",
+    size = "small",
+    srcs = ["blockwise_test.py"],
+    deps = [
+        ":bijector_test_util",
+        ":bijectors",
+        # absl/testing:parameterized dep,
+        # numpy dep,
+        # tensorflow dep,
+    ],
+)
+
+py_test(
+    name = "categorical_to_discrete_test",
+    size = "small",
+    srcs = ["categorical_to_discrete_test.py"],
+    deps = [
+        ":bijector_test_util",
+        ":bijectors",
+        # tensorflow dep,
+    ],
+)
+
+py_test(
     name = "conditional_bijector_test",
     size = "small",
     srcs = ["conditional_bijector_test.py"],
@@ -701,6 +747,7 @@ py_test(
 py_test(
     name = "masked_autoregressive_test",
     size = "small",
+    timeout = "moderate",
     srcs = ["masked_autoregressive_test.py"],
     deps = [
         ":bijectors",
